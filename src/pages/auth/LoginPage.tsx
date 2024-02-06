@@ -145,7 +145,7 @@ export default function LoginPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch('/api/login', { // Укажите URL вашего API для входа
+      const response = await fetch('/api/login', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -156,11 +156,8 @@ export default function LoginPage() {
       const data = await response.json();
   
       if (response.ok) {
-        // Успешный вход: Обработайте вход пользователя в систему
         console.log('Успешный вход', data);
-        // Например, сохранение токена в localStorage и перенаправление пользователя
       } else {
-        // Обработка ошибок входа
         console.error('Ошибка входа', data);
       }
     } catch (error) {

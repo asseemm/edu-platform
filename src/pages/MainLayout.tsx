@@ -12,23 +12,33 @@ const MainLayoutStyle = styled.div`
 `;
 
 const Content = styled.div`
-  width: calc(100% - 300px);
+  width: calc(100% - 350px);
   height: 100vh;
-  margin-left: 300px;
+  margin-left: 350px;
+
+  @media screen and (max-width: 950px){
+    margin-left: 0px;
+    width: 100%;
+  }
 `;
 
-export default function MainLayout() {
+interface MainLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function MainLayout(props: MainLayoutProps) {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
-    router.push('/auth/login'); // перенаправляем на страницу входа
-    return null; // или отображаем индикатор загрузки, пока происходит редирект
+    router.push('/auth/login');
+    return null;
   }
+
   return (
     <MainLayoutStyle>
       <Sidebar />
-      <Content></Content>
+      <Content>{props.children}</Content>
     </MainLayoutStyle>
   );
 }
