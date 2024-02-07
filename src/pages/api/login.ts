@@ -1,26 +1,36 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
+import nookies from 'nookies';
+import { verifyPassword, generateToken, findUserByEmail} from '@/utils/auth';
 
-type Data = {
-  message: string;
-  success?: boolean;
-};
-
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>,
-) {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { email, password } = req.body;
 
-    // Здесь должна быть логика проверки учетных данных пользователя, например:
-    // 1. Проверить, есть ли пользователь с таким email в базе данных
-    // 2. Сравнить предоставленный пароль с хэшированным паролем в базе данных
-    // 3. Если все проверки пройдены, вернуть токен или статус успеха
+    const user = await findUserByEmail(email);
+    if (!user) {
+      res.status(401).json({ message: 'Пользователь не найден' });
+      return;
+    }
 
-    // Для примера мы просто возвращаем сообщение об успехе
-    res.status(200).json({ message: 'Login successful', success: true });
+    const isValid = await verifyPassword(password, user.passwordHash);
+    if (!isValid) {
+      res.status(401).json({ message: 'Неверный пароль' });
+      return;
+    }
+
+    const token = generateToken(user.id);
+
+    nookies.set({ res }, 'authToken', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      path: '/',
+      maxAge: 30 * 24 * 60 * 60,
+    });
+
+    res.status(200).json({ message: 'Успешный вход в систему' });
   } else {
-    // Если метод запроса не POST, возвращаем ошибку
-    res.status(405).json({ message: 'Method Not Allowed' });
+    // Обрабатываем не-POST запросы
+    res.setHeader('Allow', ['POST']);
+    res.status(405).json({ message: `Метод ${req.method} не разрешен` });
   }
-}
+};

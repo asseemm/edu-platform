@@ -1,21 +1,23 @@
 // authContext.tsx
-import React, { createContext, useState, useContext } from 'react';
-import { ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode } from 'react';
+import nookies from 'nookies';
 
 export const AuthContext = createContext({
   isAuthenticated: false,
-  login: () => {},
-  logout: () => {}
+  login: (token: string) => { },
+  logout: () => { }
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = () => {
+  const login = (token: string) => {
+    nookies.set(undefined, 'authToken', token, { path: '/' });
     setIsAuthenticated(true);
   };
 
   const logout = () => {
+    nookies.destroy(undefined, 'authToken');
     setIsAuthenticated(false);
   };
 

@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { Inter } from "next/font/google";
 import styled from 'styled-components';
 
+import MainLayout from '@/pages/MainLayout';
 import Title from '@/components/ui/Title';
 import CourseCard from '@/components/ui/CourseCard';
 
@@ -25,6 +26,7 @@ const Courses = styled.div`
 
 export default function CoursesPage() {
     return(
+        <MainLayout>
         <PageWrapper>
             <Title>Курсы</Title>
             <Courses>
@@ -47,5 +49,6 @@ export default function CoursesPage() {
                 />
             </Courses>
         </PageWrapper>
+        </MainLayout>
     );
 }

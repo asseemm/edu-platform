@@ -27,13 +27,13 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout(props: MainLayoutProps) {
-  const router = useRouter();
-  const { isAuthenticated } = useAuth();
+  // const router = useRouter();
+  // const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated) {
-    router.push('/auth/login');
-    return null;
-  }
+  // if (!isAuthenticated) {
+  //   router.push('/auth/LoginPage');
+  //   return null;
+  // }
 
   return (
     <MainLayoutStyle>

@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import styled from 'styled-components';
+import { useRouter } from 'next/router';
 import Link from "next/link";
 import { Inter } from "next/font/google";
-import styled from 'styled-components';
 
 import LeftSideAuth from "@/components/ui/LeftSideAuth";
 
@@ -141,27 +142,27 @@ const ForgotPassword = styled.a`
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch('/api/login', { 
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
-        console.log('Успешный вход', data);
+        router.push('/courses/CoursesPage');
       } else {
-        console.error('Ошибка входа', data);
+        console.error('Ошибка входа', data.message);
       }
     } catch (error) {
-      // Обработка ошибок сети или сервера
       console.error('Ошибка запроса', error);
     }
   };
@@ -172,8 +173,8 @@ export default function LoginPage() {
       <FormSide>
         <FormContainer>
           <Bar>
-          <Link href="/auth/LoginPage"><AuthLink style={{color:'#0093FF',}}>Войти</AuthLink></Link>
-          <Link href="/auth/RegisterPage"><AuthLink>Регистрация</AuthLink></Link>
+            <Link href="/auth/LoginPage"><AuthLink style={{ color: '#0093FF', }}>Войти</AuthLink></Link>
+            <Link href="/auth/RegisterPage"><AuthLink>Регистрация</AuthLink></Link>
           </Bar>
           <form onSubmit={handleSubmit}>
             <Inputs>
@@ -190,7 +191,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <SavePassword>
-              <Checkbox type="checkbox" id="savePassword" />
+                <Checkbox type="checkbox" id="savePassword" />
                 <label htmlFor="savePassword">Запомнить пароль</label>
               </SavePassword>
               <SubmitBtn type="submit">Войти</SubmitBtn>
