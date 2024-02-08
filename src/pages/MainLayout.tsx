@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import styled from 'styled-components';
 
 import Sidebar from "@/components/layout/Sidbar"
-import { useAuth } from "@/hooks/authContext"
+import Header from '@/components/layout/Header';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,8 +13,8 @@ const MainLayoutStyle = styled.div`
 
 const Content = styled.div`
   width: calc(100% - 350px);
-  height: 100vh;
   margin-left: 350px;
+  margin-top: 80px;
 
   @media screen and (max-width: 950px){
     margin-left: 0px;
@@ -27,16 +27,9 @@ interface MainLayoutProps {
 }
 
 export default function MainLayout(props: MainLayoutProps) {
-  // const router = useRouter();
-  // const { isAuthenticated } = useAuth();
-
-  // if (!isAuthenticated) {
-  //   router.push('/auth/LoginPage');
-  //   return null;
-  // }
-
   return (
     <MainLayoutStyle>
+      <Header />
       <Sidebar />
       <Content>{props.children}</Content>
     </MainLayoutStyle>

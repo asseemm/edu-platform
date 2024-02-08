@@ -123,7 +123,7 @@ const Sidebar = () => {
         <nav>
           <NavList>
             <NavItem>
-              <NavLink href="/" passHref>
+              <NavLink href="/courses/CoursesPage" passHref>
                 <Image src={ListSvg} alt="List Icon" height={32} width={32} />
                 Курсы
               </NavLink>

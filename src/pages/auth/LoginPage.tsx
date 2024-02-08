@@ -158,7 +158,7 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/courses/CoursesPage');
+        router.push('/ProfilePage');
       } else {
         console.error('Ошибка входа', data.message);
       }

@@ -14,14 +14,14 @@ import RFMSH from "@/assets/img/RFMSH.png";
 const inter = Inter({ subsets: ["latin"] });
 
 const PageWrapper = styled.div`
-    padding: 60px;
+    padding: 40px 60px;
 `;
 
 const Courses = styled.div`
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    margin-top: 100px;
+    margin-top: 50px;
 `;
 
 export default function CoursesPage() {
